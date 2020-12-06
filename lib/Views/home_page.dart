@@ -1,5 +1,9 @@
 import 'package:e_commerce/Controllers/product_controller.dart';
+import 'package:e_commerce/Views/Widgets/drawer.dart';
+import 'package:e_commerce/Views/Widgets/login_button.dart';
 import 'package:e_commerce/Views/Widgets/product_tile.dart';
+import 'package:e_commerce/Views/login_page.dart';
+import 'package:e_commerce/Views/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,7 +11,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 
 class HomePage extends StatelessWidget {
-  final ProductController productController = Get.put(ProductController());
+  static ProductController productController = Get.put(ProductController());
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +25,11 @@ class HomePage extends StatelessWidget {
                   Icons.person,
                   color: Colors.black,
                 ),
-                onPressed: () {})
+                onPressed: () async{
+                  await productController.fetchUserProducts();
+                             Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfilePage()));
+
+                })
           ],
         ),
         floatingActionButton: FloatingActionButton(
@@ -32,33 +40,7 @@ class HomePage extends StatelessWidget {
           ),
           backgroundColor: Colors.white70,
         ),
-        drawer: Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              DrawerHeader(
-                child: Text('Drawer Header'),
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-              ),
-              ListTile(
-                title: Text('Item 1'),
-                onTap: () {
-                  // Update the state of the app.
-                  // ...
-                },
-              ),
-              ListTile(
-                title: Text('Item 2'),
-                onTap: () {
-                  // Update the state of the app.
-                  // ...
-                },
-              ),
-            ],
-          ),
-        ),
+        drawer: MyDrawer(),
         body: SafeArea(
           child: Column(
             children: [
@@ -75,11 +57,12 @@ class HomePage extends StatelessWidget {
                             fontWeight: FontWeight.w900),
                       ),
                     ),
-                    IconButton(
-                      icon: Icon(Icons.view_list_rounded),
+                  
+                    IconButton(icon: Icon(Icons.grid_view), onPressed: () {}),
+                      IconButton(
+                      icon: Icon(Icons.add_box_outlined),
                       onPressed: () {},
                     ),
-                    IconButton(icon: Icon(Icons.grid_view), onPressed: () {}),
                   ],
                 ),
               ),

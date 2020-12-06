@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class LoginPage extends StatelessWidget {
+  static AuthController authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {

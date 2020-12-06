@@ -6,9 +6,14 @@ class AuthController extends GetxController {
   var isSigned = false.obs;
   var user = User().obs;
 
-  void auth_user(username, password) async {
+  Future<bool> auth_user(username, password) async {
     var tempuser = await RemoteServices.authUser(username, password);
-    user.value = tempuser;
-    print(user.toString());
+    if (tempuser.isNotEmpty) {
+      user.value = tempuser[0];
+      print(user.toJson()["userToken"]);
+      return true;
+    } else {
+      return false;
+    }
   }
 }
